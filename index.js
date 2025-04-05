@@ -36,6 +36,7 @@ app.post('/webhook', async (req, res) => {
       .get();
 
     if (snapshot.empty) {
+      console.log('No autoresponder found for:', incomingMsg);
       return res.send('<Response></Response>'); // No match, no reply
     }
 
@@ -47,7 +48,8 @@ app.post('/webhook', async (req, res) => {
       to: from,
       body: reply
     });
-
+    
+    console.log('Replied with:', reply);
     res.send('<Response></Response>');
   } catch (err) {
     console.error('Webhook error:', err);
