@@ -23,6 +23,17 @@ const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_A
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Add right after db is initialized
+app.get('/firestore-test', async (req, res) => {
+  try {
+    const snapshot = await db.collection('autoresponders').limit(1).get();
+    res.send('✅ Firestore connection successful!');
+  } catch (err) {
+    console.error('❌ Firestore test failed:', err);
+    res.status(500).send('Firestore error: ' + err.message);
+  }
+});
+
 app.post('/webhook', async (req, res) => {
   const incomingMsg = req.body.Body?.trim().toLowerCase();
   const from = req.body.From;
