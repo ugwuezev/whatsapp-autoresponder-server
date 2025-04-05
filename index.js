@@ -27,6 +27,8 @@ app.post('/webhook', async (req, res) => {
   const incomingMsg = req.body.Body?.trim().toLowerCase();
   const from = req.body.From;
 
+  console.log('Incoming message:', incomingMsg, 'From:', from);
+
   try {
     const snapshot = await db
       .collection('autoresponders')
